@@ -3,7 +3,7 @@ del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
 dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
     vertical-align: baseline;
-    font-family: inherit;
+    font-family: 'Open Sans', sans-serif;
     font-weight: inherit;
     font-style: inherit;
     font-size: 100%;
@@ -17,7 +17,7 @@ dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
     outline: 0;
 }
 body {
-    background: white;
+    background: #f9f9f9;
     line-height: 1;
     color: black;
 }
