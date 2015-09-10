@@ -10,8 +10,10 @@
 <body>
     <div id="container">
         <div id="top-links">
+            <div class="top-social">
+
+            </div>
             <ul class="top-links">
-                <li><a href="">Lorem.</a></li>
                 <li><a href="">Atque.</a></li>
                 <li><a href="">Laborum!</a></li>
                 <li><a href="">Inventore.</a></li>
