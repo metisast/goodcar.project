@@ -13,7 +13,7 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
             $table->integer('catalog_id');
             $table->string('title');
             $table->date('date_store');
@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->string('main_image');
             $table->string('views');
             $table->string('buy_count');
+            $table->timestamps();
         });
     }
 
@@ -35,6 +36,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop('products');
     }
 }
