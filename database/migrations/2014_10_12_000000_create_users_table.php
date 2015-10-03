@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->date('date_reg');
             $table->integer('last_login');
+            $table->string('remember_token');
             $table->timestamps();
         });
     }

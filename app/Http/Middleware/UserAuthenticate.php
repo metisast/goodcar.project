@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class Authenticate
+class UserAuthenticate
 {
     /**
      * The Guard implementation.
@@ -17,7 +17,7 @@ class Authenticate
     /**
      * Create a new filter instance.
      *
-     * @param  Guard $auth
+     * @param  Guard  $auth
      */
     public function __construct(Guard $auth)
     {
@@ -33,7 +33,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->guest() || $this->auth->user()->role_id != 1) {
+        if ($this->auth->guest() || $this->auth->user()->role_id != 2   ) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
