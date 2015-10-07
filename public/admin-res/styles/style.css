@@ -1,7 +1,71 @@
 /*Top-line*/
 #top-line{
-    height: 40px;
-    background: #34495E;
+    height: 50px;
+    background: #555;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+    position: relative;
+}
+.logo{
+    position: absolute;
+    left: 50%;
+}
+.logo a{
+    display: block;
+    line-height: 50px;
+    font-size: 32px;
+    color: #FFF;
+    margin-left: -15px;
+}
+.top-line-left{
+    float: left;
+    margin-left: 10px;
+    position: relative;
+}
+.top-line-left form{
+    line-height: 47px;
+}
+.top-line-left input{
+    background: #444;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    color: #fff;
+    width: 200px;
+}
+.top-line-left button{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    font-size: 16px;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.top-line-right{
+    float: right;
+    width: 200px;
+}
+.top-line-right > a{
+    display: block;
+    float: right;
+    color: #fff;
+    line-height: 50px;
+    font-size: 25px;
+    padding: 0 15px;
+    background: #444;
+    position: relative;
+}
+.top-line-right a span{
+    color: #fff;
+    background: #1ABC9C;
+    font-size: 11px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    line-height: 10px;
+    border-radius: 50%;
+    padding: 3px;
 }
 /*Main content*/
 .main-content{
@@ -14,6 +78,7 @@
     height: 600px;
     background: #eee;
     border-right: 2px solid #bbb;
+    float: left;
 }
 /*User*/
 .user{
@@ -51,6 +116,7 @@
 /*Left navigation*/
 .l-nav li{
     border-top: 1px solid #bbb;
+    position: relative;
 }
 .l-nav li:hover a{
     background: #3498DB;
@@ -66,4 +132,8 @@
 .l-nav li a span{
     font-size: 18px;
     margin: 0 10px;
+}
+/*Right side*/
+.right{
+    float: right;
 }
