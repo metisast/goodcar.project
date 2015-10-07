@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Если композер реализуется при помощи класса:
+        view()->composer('*', 'App\Http\Composers\ActivePage');
     }
 
     /**
