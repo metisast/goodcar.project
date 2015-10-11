@@ -1,6 +1,5 @@
 <?php namespace App\Http\Composers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class ActivePage {

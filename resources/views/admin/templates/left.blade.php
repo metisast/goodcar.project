@@ -1,8 +1,8 @@
 {{-- Left nav block --}}
 <ul class="l-nav">
-    <li><a href="#"><span class="icon-home"></span>Активность</a><div class="active"></div></li>
-    <li><a href="#"><span class="icon-basket-loaded"></span>Покупки</a></li>
-    <li><a href="#"><span class="icon-tag"></span>Товары</a></li>
+    <li><a href="{{ route('admin.index') }}"><span class="icon-home"></span>Активность</a><div class="active"></div></li>
+    <li><a href="{{ route('admin.buy') }}"><span class="icon-basket-loaded"></span>Покупки</a></li>
+    <li><a href="{{ route('admin.products') }}"><span class="icon-tag"></span>Товары</a></li>
     <li><a href="#"><span class="icon-folder-alt"></span>Каталоги</a></li>
     <li><a href="#"><span class="icon-equalizer"></span>Характеристики</a></li>
     <li><a href="#"><span class="icon-users"></span>Пользователи</a></li>

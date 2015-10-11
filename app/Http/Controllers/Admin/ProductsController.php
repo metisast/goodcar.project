@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class BuyController extends Controller
+class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class BuyController extends Controller
      */
     public function index()
     {
-        return view('admin.buy.index');
+        return view('admin.products.index');
     }
 
     /**
