@@ -1,4 +1,4 @@
-//products index file
+{{-- products index file  --}}
 
 @extends('admin.templates.app')
 

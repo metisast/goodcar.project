@@ -7,9 +7,9 @@
     <!-- Include Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!-- Include css styles -->
-    <link rel="stylesheet" href="admin-res/styles/simple-line-icons.css"/>
-    <link rel="stylesheet" href="admin-res/styles/reset.css"/>
-    <link rel="stylesheet" href="admin-res/styles/style.css"/>
+    <link rel="stylesheet" href="/admin-res/styles/simple-line-icons.css"/>
+    <link rel="stylesheet" href="/admin-res/styles/reset.css"/>
+    <link rel="stylesheet" href="/admin-res/styles/style.css"/>
 </head>
 <body>
 <div id="wrapper">

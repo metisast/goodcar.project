@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
         'uses' => 'AdminController@index'
     ]);
     Route::get('admin/buy', [
-        'as' => 'admin.index',
+        'as' => 'admin.buy',
         'uses' => 'BuyController@index'
     ]);
     Route::get('admin/products', [
