@@ -61,10 +61,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
         'as' => 'admin.buy',
         'uses' => 'BuyController@index'
     ]);
-    Route::get('admin/products', [
-        'as' => 'admin.products',
-        'uses' => 'ProductsController@index'
-    ]);
+
+    Route::resource('admin/products', 'ProductsController');
+
+    Route::resource('admin/catalogs', 'CatalogsController');
 });
 
 /*

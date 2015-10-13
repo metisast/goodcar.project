@@ -1,13 +1,16 @@
 <?php
 
+/**
+ *  Контроллер управления каталогами товаров
+ */
+
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ProductsController extends Controller
+class CatalogsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +19,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('admin.products.index');
+        return view('admin.catalogs.index');
     }
 
     /**
@@ -26,7 +29,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        return view('admin.catalogs.create');
     }
 
     /**

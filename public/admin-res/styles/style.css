@@ -74,7 +74,7 @@
 }
 /*Left side*/
 .left{
-    width: 200px;
+    width: 15%;
     height: 600px;
     background: #eee;
     border-right: 2px solid #bbb;
@@ -136,4 +136,86 @@
 /*Right side*/
 .right{
     float: right;
+    text-align: left;
+    width: 84%;
+}
+.right-title{
+    font-size: 28px;
+    margin: 15px 10px;
+    font-weight: bold;
+    color: #555;
+}
+.right-block{
+    margin: 10px 0;
+}
+/*Main -table*/
+.main-table{
+    width: 100%;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    color: #555;
+}
+.main-table tr:first-child td{
+    background: #34495E;
+    color: #fff;
+    font-weight: bold;
+}
+.main-table tr td{
+    padding: 10px 5px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.main-table tr:last-child td{
+    border-bottom: none;
+}
+.main-table tr td:last-child{
+    border-right: none;
+}
+.main-table tr:nth-child(even){
+    background: #eee;
+}
+.main-table tr:nth-child(odd){
+    background: #ddd;
+}
+.main-table tr:hover td{
+    background: #3498DB;
+    color: #fff;
+}
+.main-table tr:hover:first-child td{
+    background: #34495E;
+    color: #fff;
+}
+.main-table tr:hover .action a{
+    background: #3498DB;
+    color: #fff;
+}
+#action{
+    text-align: center;
+}
+.action{
+    text-align: center;
+}
+.action a{
+    color: #555;
+    font-size: 15px;
+    display: block;
+}
+/*Main form*/
+.main-form{
+
+}
+/*Buttons*/
+.buttons{
+    text-align: right;
+    margin: 10px 2px;
+}
+.buttons a{
+    font-size: 12px;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+}
+.btn-add{
+    background: #1ABC9C;
+    border-bottom: 3px solid #16A085;
 }

@@ -26,6 +26,7 @@
         </div>
         <!-- Right side -->
         <div class="right">
+            <h3 class="right-title">@yield('right-block-title', 'Title')</h3>
             @yield('right-content')
         </div>
     </div>
