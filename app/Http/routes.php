@@ -64,6 +64,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
 
     Route::resource('admin/products', 'ProductsController');
 
+    Route::get('admin/catalogs/delete/{id}',[
+        'as' => 'admin.catalogs.delete',
+        'uses' => 'CatalogsController@delete'
+    ]);
     Route::resource('admin/catalogs', 'CatalogsController');
 });
 

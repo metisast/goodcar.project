@@ -1,4 +1,4 @@
-{{-- products create file  --}}
+{{-- catalogs create file  --}}
 
 @extends('admin.templates.app')
 
@@ -7,7 +7,7 @@
 @section('right-block-title', 'Добавить каталог')
 
 @section('right-content')
-    <form action="{{ route('admin.products.store') }}">
+    <form action="{{ route('admin.catalogs.store') }}" method="post">
         {!! csrf_field() !!}
         <table class="main-form">
             <tr>

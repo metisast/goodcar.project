@@ -6,20 +6,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Catalog;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class CatalogsController extends Controller
 {
+    protected $i = 1;
+
     /**
      * Display a listing of the resource.
      *
+     * @param Catalog $catalog
      * @return Response
      */
-    public function index()
+    public function index(Catalog $catalog)
     {
-        return view('admin.catalogs.index');
+        $catalogs = $catalog->all();
+
+        return view('admin.catalogs.index')
+            ->with('catalogs', $catalogs)
+            ->with('i', $this->i);
     }
 
     /**
@@ -36,11 +44,16 @@ class CatalogsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
+     * @param Catalog $catalog
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Catalog $catalog)
     {
-        //
+        $catalog->title = $request->input('title');
+        $catalog->save();
+
+        return redirect(route('admin.catalogs.index'))
+                ->with('message', 'Success');
     }
 
     /**
@@ -57,24 +70,33 @@ class CatalogsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Catalog $catalog
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Catalog $catalog, $id)
     {
-        //
+        $catalogs = $catalog->findOrFail($id);
+
+        return view('admin.catalogs.edit')
+            ->with('catalogs', $catalogs);
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param Catalog $catalog
      * @param  Request  $request
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Catalog $catalog, $id)
     {
-        //
+        $cat = $catalog->findOrFail($id);
+        $cat->title = $request->input('title');
+        $cat->save();
+
+        return redirect(route('admin.catalogs.edit', $id));
     }
 
     /**
@@ -86,5 +108,20 @@ class CatalogsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Catalog $catalog
+     * @param  int  $id
+     * @return Response
+     */
+    public function delete(Catalog $catalog, $id)
+    {
+        $cat = $catalog->findOrFail($id);
+        $cat->delete();
+
+        return redirect(route('admin.catalogs.index'));
     }
 }
