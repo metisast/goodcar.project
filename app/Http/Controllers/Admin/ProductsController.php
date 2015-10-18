@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Catalog;
 use App\Models\Product;
+use App\Models\ProductsStatus;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -30,20 +31,28 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param ProductsStatus @productsStatus
      * @param Catalog $catalog
      * @return Response
      */
-    public function create(Catalog $catalog)
+    public function create(Catalog $catalog, ProductsStatus $productsStatus)
     {
         $catalogs = $catalog->all();
+        $pStatus = $productsStatus->all();
 
-        $options = '<option value="0">Выберите каталог</option>>';
+        $optCatalogs = '<option value="0">Выберите каталог</option>>';
         foreach($catalogs as $cat) {
-            $options .= "<option value='$cat->id'>$cat->title</option>>";
+            $optCatalogs .= "<option value='$cat->id'>$cat->title</option>>";
+        }
+
+        $optStatus = '<option value="0">Выберите статус</option>>';
+        foreach($pStatus as $pS) {
+            $optStatus .= "<option value='$pS->id'>$pS->title</option>>";
         }
 
         return view('admin.products.create')
-            ->with('options', $options);
+            ->with('optCatalogs', $optCatalogs)
+            ->with('optStatus', $optStatus);
     }
 
     /**
@@ -75,32 +84,48 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param ProductsStatus $productsStatus
      * @param Catalog $catalog
      * @param Product $product
      * @param  int  $id
      * @return Response
      */
-    public function edit(Product $product,Catalog $catalog, $id)
+    public function edit(Product $product,Catalog $catalog, ProductsStatus $productsStatus, $id)
     {
         $products = $product->findOrFail($id);
 
         $catalogs = $catalog->all();
+        $pStatus = $productsStatus->all();
 
-        $options = '<option value="0">Выберите каталог</option>>';
+        $optCatalogs = '<option value="0">Выберите каталог</option>>';
         foreach($catalogs as $cat) {
             if($cat->id == $products->catalog_id)
             {
-                $options .= "<option selected value='$cat->id'>$cat->title</option>>";
+                $optCatalogs .= "<option selected value='$cat->id'>$cat->title</option>>";
             }
             else
             {
-                $options .= "<option value='$cat->id'>$cat->title</option>>";
+                $optCatalogs .= "<option value='$cat->id'>$cat->title</option>>";
             }
+        }
+
+        $optStatus = '<option value="0">Выберите статус</option>>';
+        foreach($pStatus as $pS) {
+            if($pS->id == $products->status_id)
+            {
+                $optStatus .= "<option selected value='$pS->id'>$pS->title</option>>";
+            }
+            else
+            {
+                $optStatus .= "<option value='$pS->id'>$pS->title</option>>";
+            }
+
         }
 
         return view('admin.products.edit')
             ->with('products', $products)
-            ->with('options', $options);
+            ->with('optCatalogs', $optCatalogs)
+            ->with('optStatus', $optStatus);
     }
 
     /**

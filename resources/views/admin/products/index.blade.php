@@ -13,6 +13,7 @@
                 <td>№</td>
                 <td>Название</td>
                 <td>Каталог</td>
+                <td>Статус</td>
                 <td>Цена в тг.</td>
                 <td colspan="2" id="action">Действия</td>
             </tr>
@@ -21,6 +22,7 @@
                     <td>{{ $i++ }}</td>
                     <td>{{ $product->title }}</td>
                     <td>{{ $product->catalog['title']}}</td>
+                    <td>{{ $product->status['title']}}</td>
                     <td>{{ $product->price }}</td>
                     <td class="action"><a href="{{ route('admin.products.edit', $product->id) }}" class="icon-pencil"></a></td>
                     <td class="action"><a href="{{ route('admin.products.delete', $product->id) }}" class="icon-trash"></a></td>

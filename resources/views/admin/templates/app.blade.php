@@ -1,4 +1,4 @@
-{{-- Main app template --}}
+{{-- Main app admin template --}}
 <!doctype html>
 <html lang="en">
 <head>

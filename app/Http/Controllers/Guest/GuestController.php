@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Guest;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class GuestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,4 +18,5 @@ class UserController extends Controller
     {
         return view('guest.index');
     }
+
 }

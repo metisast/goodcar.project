@@ -11,11 +11,27 @@
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Guest Routes
+|--------------------------------------------------------------------------
+|
+| Группа роутов для гостей сайта
+|
+*/
+
 /* Main page */
 Route::get('/', function () {
-    return view('user.index');
+    return view('guest.index');
 });
 
+Route::group(['namespace' => 'Guest'], function()
+{
+    Route::get('/catalogs/{id}', [
+        'as' => 'guest.catalogs.show',
+        'uses' => 'CatalogsController@show'
+    ]);
+});
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes

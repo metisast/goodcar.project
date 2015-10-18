@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Если композер реализуется при помощи класса:
         view()->composer('*', 'App\Http\Composers\ActivePage');
+        // Верхнее меню каталога продукции
+        view()->composer('*', 'App\Http\Composers\GuestTopNavComposer');
+        // Новые товары
+        view()->composer('guest.templates.new_products', 'App\Http\Composers\ProductsNewCatalogComposer');
     }
 
     /**

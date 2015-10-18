@@ -21,7 +21,7 @@
             <tr>
                 <td>
                     <select name="catalog_id">
-                        {!! $options !!}
+                        {!! $optCatalogs !!}
                     </select>
                 </td>
             </tr>
@@ -39,6 +39,13 @@
             </tr>
             <tr>
                 <td><input type="text" name="main_image" placeholder="Изображение"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <select name="status_id">
+                        {!! $optStatus !!}
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td>
