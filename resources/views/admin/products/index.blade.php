@@ -16,38 +16,16 @@
                 <td>Цена в тг.</td>
                 <td colspan="2" id="action">Действия</td>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>Диодная лента 30 см. красная</td>
-                <td>Диодные ленты</td>
-                <td>500</td>
-                <td class="action"><a href="#" class="icon-pencil"></a></td>
-                <td class="action"><a href="#" class="icon-trash"></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Диодная лента 30 см. красная</td>
-                <td>Диодные ленты</td>
-                <td>1500</td>
-                <td class="action"><a href="#" class="icon-pencil"></a></td>
-                <td class="action"><a href="#" class="icon-trash"></a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Диодная лента 30 см. красная</td>
-                <td>Диодные ленты</td>
-                <td>5000</td>
-                <td class="action"><a href="#" class="icon-pencil"></a></td>
-                <td class="action"><a href="#" class="icon-trash"></a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Диодная лента 30 см. красная</td>
-                <td>Диодные ленты</td>
-                <td>2000</td>
-                <td class="action"><a href="#" class="icon-pencil"></a></td>
-                <td class="action"><a href="#" class="icon-trash"></a></td>
-            </tr>
+            @foreach($products as $product)
+                <tr>
+                    <td>{{ $i++ }}</td>
+                    <td>{{ $product->title }}</td>
+                    <td>{{ $product->catalog['title']}}</td>
+                    <td>{{ $product->price }}</td>
+                    <td class="action"><a href="{{ route('admin.products.edit', $product->id) }}" class="icon-pencil"></a></td>
+                    <td class="action"><a href="{{ route('admin.products.delete', $product->id) }}" class="icon-trash"></a></td>
+                </tr>
+            @endforeach
         </table>
         <div class="buttons">
             <a href="{{ route('admin.products.create') }}" class="btn-add">Добавить товар</a>

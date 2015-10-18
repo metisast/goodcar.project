@@ -7,19 +7,21 @@
 @section('right-block-title', 'Добавить товар')
 
 @section('right-content')
-    <form action="{{ route('admin.products.store') }}">
+    <form action="{{ route('admin.products.store') }}" method="post">
         {!! csrf_field() !!}
         <table class="main-form">
             <tr>
                 <td><input type="text" name="title" placeholder="Название товара"/></td>
             </tr>
             <tr>
-                <td><input type="text" name="description" placeholder="Описание товара"/></td>
+                <td>
+                    <textarea type="text" name="description" placeholder="Описание товара"></textarea>
+                </td>
             </tr>
             <tr>
                 <td>
                     <select name="catalog_id">
-
+                        {!! $options !!}
                     </select>
                 </td>
             </tr>
