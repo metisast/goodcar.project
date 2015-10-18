@@ -7,5 +7,5 @@
     <li><a href="#"><span class="icon-equalizer"></span>Характеристики</a></li>
     <li><a href="#"><span class="icon-users"></span>Пользователи</a></li>
     <li><a href="#"><span class="icon-settings"></span>Настройки магазина</a></li>
-    <li><a href="#"><span class="icon-close"></span>Выход</a></li>
+    <li><a href="{{ action('Auth\AuthController@getLogout') }}"><span class="icon-close"></span>Выход</a></li>
 </ul>
