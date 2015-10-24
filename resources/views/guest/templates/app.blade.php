@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('page_title', 'Добро пожаловать!')</title>
+    <title>@yield('pageTitle', 'Добро пожаловать!')</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/admin-res/styles/simple-line-icons.css"/>
     <link rel="stylesheet" href="/guest-res/styles/reset.css">
@@ -54,6 +54,8 @@
             </a>
         </div>
     </div>
+    <!-- Top-menu -->
+    @include('guest.templates.top_menu')
     <!-- Middle blocks -->
     @yield('middleBlocks')
 

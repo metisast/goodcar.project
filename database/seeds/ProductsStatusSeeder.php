@@ -19,6 +19,5 @@ class ProductsStatusSeeder extends Seeder
                 'title' => $status[$i],
             ]);
         }
-
     }
 }

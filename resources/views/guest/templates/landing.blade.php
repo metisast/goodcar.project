@@ -1,5 +1,3 @@
-        <!-- Top-menu -->
-@include('guest.templates.top_menu')
         <!-- Slider -->
 @include('guest.templates.slider')
         <!-- Info-block -->

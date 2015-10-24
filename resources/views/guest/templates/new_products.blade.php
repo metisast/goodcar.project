@@ -14,8 +14,8 @@
                     </p>
                 </div>
                 <div class="offers-price">
-                    <p class="offers-new-price">{{ $product->price }}</p>
-                    <p class="offers-old-price">{{ $product->old_price }}</p>
+                    <p class="offers-new-price">{{ $product->price }} тг.</p>
+                    <p class="offers-old-price">{{ $product->old_price }} тг.</p>
                 </div>
                 <div class="offers-buttons">
                     <button class="offers-buy">купить</button>

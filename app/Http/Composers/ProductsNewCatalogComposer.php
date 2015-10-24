@@ -9,7 +9,7 @@ class ProductsNewCatalogComposer {
 
     public function __construct(Product $product)
     {
-        $this->newProducts = $product->where('status_id', '=', 2)->take(4)->get();
+        $this->newProducts = $product->where('status_id', '=', 3)->take(4)->get();
     }
 
     public function compose(View $view)
