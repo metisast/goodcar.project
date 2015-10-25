@@ -96,7 +96,19 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">1</div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <a href="/"><img src="/guest-res/img/ico/logo-bottom.png" alt="12Volt"></a>
+            </div>
+            <div class="footer-bottom-center">
+                <a href="http://astana.systems">astana-systems, 2015</a>
+            </div>
+            <div class="footer-bottom-right">
+                <a href="#"><img src="/guest-res/img/ico/facebook-bottom.png" alt=""></a>
+                <a href="#"><img src="/guest-res/img/ico/rss-bottom.png" alt=""></a>
+                <a href="#"><img src="/guest-res/img/ico/gplus-bottom.png" alt=""></a>
+            </div>
+        </div>
     </div>
 </div>
 </body>

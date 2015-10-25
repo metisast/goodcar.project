@@ -527,6 +527,8 @@
     /* IE6-7 */
     //display : inline;
     //zoom : 1;
+
+    margin-bottom: 20px;
 }
 .product-show-img{
     height: 150px;
@@ -679,5 +681,29 @@
 }
 .footer-bottom{
     clear: both;
-    margin: 50px 0 20px 0;
+    margin: 80px auto 20px auto;
+    width: 1260px;
+}
+.footer-bottom-left, .footer-bottom-center, .footer-bottom-right{
+    width: 420px;
+    float: left;
+}
+.footer-bottom-left{
+    text-align: left;
+    margin-bottom: 10px;
+}
+.footer-bottom-center a{
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-top: 40px;
+    display: block;
+}
+.footer-bottom-right{
+    text-align: right;
+}
+.footer-bottom-right a{
+    margin-left: 20px;
+    margin-top: 20px;
+    display: inline-block;
 }

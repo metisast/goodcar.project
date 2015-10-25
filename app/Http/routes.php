@@ -27,9 +27,16 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'Guest'], function()
 {
+    /*-- Товары по категориям --*/
     Route::get('/catalogs/{id}', [
         'as' => 'guest.catalogs.show',
         'uses' => 'CatalogsController@show'
+    ]);
+
+    /*-- Просмотр товара --*/
+    Route::get('/products/{id}', [
+        'as' => 'guest.products.show',
+        'uses' => 'ProductsController@show'
     ]);
 });
 /*

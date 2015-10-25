@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class CatalogsController extends Controller
+class ProductsController extends Controller
 {
     protected $catalogs;
     protected $products;
@@ -31,11 +31,11 @@ class CatalogsController extends Controller
 
     public function show($id)
     {
-        $products = $this->products->where('catalog_id','=',$id)->get();
-        $catalog = $this->catalogs->findOrFail($id);
+        $product = $this->products->findOrfail($id);
+        $catalog = $this->catalogs->findOrFail($product->catalog_id);
 
-        return view('guest.catalogs.show')
-            ->with('products', $products)
+        return view('guest.products.show')
+            ->with('product', $product)
             ->with('catalog', $catalog);
     }
 

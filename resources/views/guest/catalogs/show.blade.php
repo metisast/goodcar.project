@@ -39,7 +39,7 @@
                     </div>
                     <div class="product-show-buttons">
                         <a href="#" class="buy">купить</a>
-                        <a href="#" class="more">детали</a>
+                        <a href="{{ route('guest.products.show', $product->id) }}" class="more">детали</a>
                     </div>
                 </li>
         @endforeach
