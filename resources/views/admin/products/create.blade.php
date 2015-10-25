@@ -38,9 +38,6 @@
                 <td><input type="text" name="author" placeholder="Автор"/></td>
             </tr>
             <tr>
-                <td><input type="file" name="main_image" placeholder="Изображение"/></td>
-            </tr>
-            <tr>
                 <td>
                     <select name="status_id">
                         {!! $optStatus !!}

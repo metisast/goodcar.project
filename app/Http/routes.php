@@ -90,6 +90,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
         'as' => 'admin.products.delete',
         'uses' => 'ProductsController@delete'
     ]);
+    Route::post('admin/products/images/{id}',[
+        'as' => 'admin.products.createImages',
+        'uses' => 'ProductsController@createImages'
+    ]);
     Route::resource('admin/products', 'ProductsController');
 
     /*-- Роуты каталогов --*/

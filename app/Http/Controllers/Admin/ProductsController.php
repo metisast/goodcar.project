@@ -4,24 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Catalog;
 use App\Models\Product;
+use App\Models\ProductImages;
 use App\Models\ProductsStatus;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class ProductsController extends Controller
 {
+    protected $catalogs;
+    protected $products;
     protected $i = 1;
+
+    public function __construct(Catalog $catalog, Product $product){
+        $this->catalogs = $catalog;
+        $this->products = $product;
+    }
     /**
      * Display a listing of the resource.
      *
-     * @param Product $product
      * @return Response
      */
-    public function index(Product $product)
+    public function index()
     {
-        $products = $product->all();
+        $products = $this->products->all();
 
         return view('admin.products.index')
             ->with('products', $products)
@@ -31,13 +41,12 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param ProductsStatus @productsStatus
-     * @param Catalog $catalog
+     * @param ProductsStatus $productsStatus
      * @return Response
      */
-    public function create(Catalog $catalog, ProductsStatus $productsStatus)
+    public function create(ProductsStatus $productsStatus)
     {
-        $catalogs = $catalog->all();
+        $catalogs = $this->catalogs->all();
         $pStatus = $productsStatus->all();
 
         $optCatalogs = '<option value="0">Выберите каталог</option>>';
@@ -58,16 +67,15 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Product $product
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request)
     {
-        $sProduct = $product->fill($request->all());
+        $sProduct = $this->products->fill($request->all());
         $sProduct->save();
 
-        return redirect(route('admin.products.index'));
+        return redirect(route('admin.products.edit', $sProduct->id));
     }
 
     /**
@@ -85,16 +93,16 @@ class ProductsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param ProductsStatus $productsStatus
-     * @param Catalog $catalog
-     * @param Product $product
+     * @param ProductImages $productImages
      * @param  int  $id
      * @return Response
      */
-    public function edit(Product $product,Catalog $catalog, ProductsStatus $productsStatus, $id)
+    public function edit(ProductsStatus $productsStatus, ProductImages $productImages, $id)
     {
-        $products = $product->findOrFail($id);
+        $products = $this->products->findOrFail($id);
+        $images = $productImages->where('product_id','=',$id)->get();
 
-        $catalogs = $catalog->all();
+        $catalogs = $this->catalogs->all();
         $pStatus = $productsStatus->all();
 
         $optCatalogs = '<option value="0">Выберите каталог</option>>';
@@ -124,6 +132,7 @@ class ProductsController extends Controller
 
         return view('admin.products.edit')
             ->with('products', $products)
+            ->with('images', $images)
             ->with('optCatalogs', $optCatalogs)
             ->with('optStatus', $optStatus);
     }
@@ -131,14 +140,13 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Product $product
      * @param  Request  $request
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request,Product $product, $id)
+    public function update(Request $request, $id)
     {
-        $insertProduct = $product->findOrFail($id)->fill($request->all());
+        $insertProduct = $this->products->findOrFail($id)->fill($request->all());
         $insertProduct->save();
 
         return redirect(route('admin.products.index'));
@@ -158,15 +166,74 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Product $product
      * @param  int  $id
      * @return Response
      */
-    public function delete(Product $product, $id)
+    public function delete($id)
     {
-        $deleteProduct = $product->findOrFail($id);
+        $deleteProduct = $this->products->findOrFail($id);
         $deleteProduct->delete();
 
         return redirect(route('admin.products.index'));
+    }
+
+
+    /**
+     * Методы для работы с изображениями для товаров
+     * @param ProductImages $productImages
+     * @param Request $requests
+     * @param $id
+     * @return Response
+     */
+    public function createImages($id, Request $requests, ProductImages $productImages)
+    {
+        //Директория для основного изображения
+        $path = public_path().'/images/'.$id.'/';
+        //Директория для миниатюр
+        $pathThumbs = $path.'thumbs/';
+
+        //Проверка на существование директории
+        if(!file_exists($path))
+        {
+            $createDirectory = File::makeDirectory($path);
+            $createThumbs = File::makeDirectory($pathThumbs);
+        }
+
+        //Добавим изображения в массив
+        $images = $requests->file('title');
+
+        //Пройдемся по массиву изображений и запишем их в наши директории
+        for($i = 0; $i < count($images); $i++)
+        {
+            //Случайная строка для имени изображения
+            $name = str_random(32).'.png';
+
+            //Создаем переменную для роботы с изображениями
+            $image = Image::make($images[$i]);
+            //Изменим исходное изображение при этом сохраним пропорции
+            $image->resize('800', null, function ($constraint){
+                $constraint->aspectRatio();
+            });
+            //Сохраним измененное изображения в папку
+            $image->save($path.$name);
+
+
+            //Создаем переменную для роботы с миниатюрами
+            $imageThumb = Image::make($images[$i]);
+            //Изменим исходное изображение при этом сохраним пропорции
+            $imageThumb->resize('180', null, function ($constraint){
+                $constraint->aspectRatio();
+            });
+            //Сохраним измененное изображения в папку
+            $imageThumb->save($pathThumbs.$name);
+
+            //Запишем имя изображения в базу
+            $productImages->create([
+                'product_id' => $id,
+                'title' => $name
+            ]);
+        }
+
+        return redirect(route('admin.products.edit', $id));
     }
 }

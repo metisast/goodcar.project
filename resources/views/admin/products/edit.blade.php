@@ -39,9 +39,6 @@
                 <td><input type="text" value="{{ $products->author }}" name="author" placeholder="Автор"/></td>
             </tr>
             <tr>
-                <td><input type="text" value="{{ $products->main_image }}" name="main_image" placeholder="Изображение"/></td>
-            </tr>
-            <tr>
                 <td>
                     <select name="status_id">
                         {!! $optStatus !!}
@@ -56,5 +53,21 @@
                 </td>
             </tr>
         </table>
+    </form>
+
+    <h3>Изображения</h3>
+    <ul class="show-images">
+        @foreach($images as $image)
+            <li>
+                <img src="/images/{{ $image->product_id }}/thumbs/{{ $image->title }}" alt="{{ $products->title }}">
+                <a href="#">Сделать основной</a>
+                <a href="#">Удалить</a>
+            </li>
+        @endforeach
+    </ul>
+    <form action="{{ route('admin.products.createImages', $products->id)}}" enctype="multipart/form-data" method="post">
+        {!! csrf_field() !!}
+        <input type="file" name="title[]" multiple="true">
+        <button name="submit">Добавить</button>
     </form>
 @stop
