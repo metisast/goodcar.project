@@ -57,13 +57,17 @@
 
     <h3>Изображения</h3>
     <ul class="show-images">
-        @foreach($images as $image)
-            <li>
-                <img src="/images/{{ $image->product_id }}/thumbs/{{ $image->title }}" alt="{{ $products->title }}">
-                <a href="#">Сделать основной</a>
-                <a href="#">Удалить</a>
-            </li>
-        @endforeach
+        <form action="{{ route('admin.products.deleteImages', $products->id) }}" method="post" enctype="multipart/form-data">
+            {!! csrf_field() !!}
+            @foreach($images as $image)
+                <li>
+                    <img src="/images/{{ $image->product_id }}/thumbs/{{ $image->title }}" alt="{{ $products->title }}">
+                    <a href="{{ route('admin.products.mainImage', ['id' => $products->id, 'image' => $image->title]) }}">Сделать основным</a>
+                    <input type="checkbox" name="image[]" value="{{ $image->title }}"/>
+                </li>
+            @endforeach
+            <button name="deleteImages">Удалить Изображения</button>
+        </form>
     </ul>
     <form action="{{ route('admin.products.createImages', $products->id)}}" enctype="multipart/form-data" method="post">
         {!! csrf_field() !!}

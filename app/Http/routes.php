@@ -90,11 +90,22 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
         'as' => 'admin.products.delete',
         'uses' => 'ProductsController@delete'
     ]);
+
     Route::post('admin/products/images/{id}',[
         'as' => 'admin.products.createImages',
         'uses' => 'ProductsController@createImages'
     ]);
+    Route::get('admin/products/images/{id}/{image}',[
+        'as' => 'admin.products.mainImage',
+        'uses' => 'ProductsController@mainImage'
+    ]);
+    Route::post('admin/products/deleteImages/{id}',[
+        'as' => 'admin.products.deleteImages',
+        'uses' => 'ProductsController@deleteImages'
+    ]);
+
     Route::resource('admin/products', 'ProductsController');
+
 
     /*-- Роуты каталогов --*/
     Route::get('admin/catalogs/delete/{id}',[

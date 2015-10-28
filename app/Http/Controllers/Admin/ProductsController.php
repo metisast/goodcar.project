@@ -6,11 +6,12 @@ use App\Models\Catalog;
 use App\Models\Product;
 use App\Models\ProductImages;
 use App\Models\ProductsStatus;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
@@ -18,11 +19,13 @@ class ProductsController extends Controller
 {
     protected $catalogs;
     protected $products;
+    protected $requests;
     protected $i = 1;
 
-    public function __construct(Catalog $catalog, Product $product){
+    public function __construct(Catalog $catalog, Product $product, Request $request){
         $this->catalogs = $catalog;
         $this->products = $product;
+        $this->requests = $request;
     }
     /**
      * Display a listing of the resource.
@@ -67,12 +70,11 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        $sProduct = $this->products->fill($request->all());
+        $sProduct = $this->products->fill($this->requests->all());
         $sProduct->save();
 
         return redirect(route('admin.products.edit', $sProduct->id));
@@ -140,13 +142,12 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $insertProduct = $this->products->findOrFail($id)->fill($request->all());
+        $insertProduct = $this->products->findOrFail($id)->fill($this->requests->all());
         $insertProduct->save();
 
         return redirect(route('admin.products.index'));
@@ -169,42 +170,50 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function delete($id)
+    public function delete($id, ProductImages $productImages)
     {
         $deleteProduct = $this->products->findOrFail($id);
         $deleteProduct->delete();
+
+        //$this->deleteImages($id, $productImages);
 
         return redirect(route('admin.products.index'));
     }
 
 
     /**
-     * Методы для работы с изображениями для товаров
+     * Методы для работы с изображениями товаров
      * @param ProductImages $productImages
-     * @param Request $requests
      * @param $id
      * @return Response
      */
-    public function createImages($id, Request $requests, ProductImages $productImages)
+    public function createImages($id, ProductImages $productImages)
     {
         //Директория для основного изображения
         $path = public_path().'/images/'.$id.'/';
         //Директория для миниатюр
         $pathThumbs = $path.'thumbs/';
 
-        //Проверка на существование директории
-        if(!file_exists($path))
-        {
-            $createDirectory = File::makeDirectory($path);
-            $createThumbs = File::makeDirectory($pathThumbs);
-        }
-
         //Добавим изображения в массив
-        $images = $requests->file('title');
+        $images = $this->requests->file('title');
 
         //Пройдемся по массиву изображений и запишем их в наши директории
         for($i = 0; $i < count($images); $i++)
         {
+            //Проверяем на пустоту элементов массива
+            if($images[$i] == null)
+            {
+                //Возвращаем пользователя, если элемент массива пустой
+                return redirect(route('admin.products.edit', $id));
+            }
+
+            //Проверка на существование директории
+            if(!file_exists($path))
+            {
+                File::makeDirectory($path);
+                File::makeDirectory($pathThumbs);
+            }
+
             //Случайная строка для имени изображения
             $name = str_random(32).'.png';
 
@@ -233,6 +242,71 @@ class ProductsController extends Controller
                 'title' => $name
             ]);
         }
+
+        return redirect(route('admin.products.edit', $id));
+    }
+
+    /**
+     * Активация основного изображения
+     *
+     * @param $id
+     * @param $image
+     * @return Response
+     */
+    public function mainImage($id, $image)
+    {
+        $product = $this->products->findOrFail($id);
+        $product->main_image = $image;
+        $product->save();
+
+        return redirect(route('admin.products.edit', $id));
+    }
+
+    /**
+     * Массовое удаление изображений
+     *
+     * @param ProductImages $productImages
+     * @param $id
+     * @return Response
+     */
+    public function deleteImages($id, ProductImages $productImages)
+    {
+        //Директория для основного изображения
+        $path = public_path().'/images/'.$id.'/';
+        //Директория для миниатюр
+        $pathThumbs = $path.'thumbs/';
+
+        $mainImage = $this->products->findOrFail($id);
+
+        $images = $this->requests->input('image');
+
+        for($i = 0; $i < count($images); $i++)
+        {
+            if($mainImage->main_image == $images[$i])
+            {
+                $mainImage->main_image = '';
+                $mainImage->save();
+            }
+
+            File::delete($path.$images[$i]);
+            File::delete($pathThumbs.$images[$i]);
+
+            $dbDelete = $productImages->where('title','=', $images[$i]);
+            $dbDelete->delete();
+        }
+
+        //Проверяем на пустоту директории с текущими изображениями
+        if (($files = @scandir($path)) && count($files) <= 3) {
+            //Удаляем директории если они пусты
+            rmdir($pathThumbs);
+            rmdir($path);
+        }
+
+        //$product = Product::findOrFail($id);
+
+        /*App::error(function(ModelNotFoundException $e){
+           return Response::make('Not Found', 404);
+        });*/
 
         return redirect(route('admin.products.edit', $id));
     }
