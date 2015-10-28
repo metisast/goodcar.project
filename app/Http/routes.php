@@ -106,6 +106,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
 
     Route::resource('admin/products', 'ProductsController');
 
+    /*-- Роуты для характеристик --*/
+    Route::resource('admin/features', 'FeaturesController');
+
 
     /*-- Роуты каталогов --*/
     Route::get('admin/catalogs/delete/{id}',[
