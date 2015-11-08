@@ -111,6 +111,10 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
 
 
     /*-- Роуты каталогов --*/
+    Route::get('admin/catalogs/features/{id}',[
+        'as' => 'admin.catalogs.features',
+        'uses' => 'CatalogsController@features'
+    ]);
     Route::get('admin/catalogs/delete/{id}',[
         'as' => 'admin.catalogs.delete',
         'uses' => 'CatalogsController@delete'

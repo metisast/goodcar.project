@@ -7,6 +7,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Catalog;
+use App\Models\CatalogFeature;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -87,16 +89,39 @@ class CatalogsController extends Controller
      *
      * @param Catalog $catalog
      * @param  Request  $request
+     * @param  CatalogFeature $catalogFeature
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request,Catalog $catalog, $id)
+    public function update(Request $request, Catalog $catalog, CatalogFeature $catalogFeature, $id)
     {
         $cat = $catalog->findOrFail($id);
-        $cat->title = $request->input('title');
-        $cat->save();
+        $btnSubmit = $request->input('submit');
+        $btnFeatures = $request->input('btn-features');
 
-        return redirect(route('admin.catalogs.edit', $id));
+        if($btnSubmit == "on")
+        {
+            $cat->title = $request->input('title');
+            $cat->save();
+
+            return redirect(route('admin.catalogs.edit', $id));
+        }
+
+        if($btnFeatures == "on")
+        {
+            $features = $request->input('features');
+
+            for($i = 0; $i < count($features); $i++)
+            {
+                $catalogFeature->create([
+                    'catalog_id' => $id,
+                    'feature_id' => $features[$i]
+                ]);
+            }
+
+            return redirect(route('admin.catalogs.index'));
+        }
+
     }
 
     /**
@@ -124,4 +149,30 @@ class CatalogsController extends Controller
 
         return redirect(route('admin.catalogs.index'));
     }
+
+    /**
+     *  Редактирование характеристик каталогов
+     *
+     * @param Catalog $catalog
+     * @param Feature $feature
+     * @param CatalogFeature $catalogFeature
+     * @param  int  $id
+     * @return Response
+     */
+    public function features(Catalog $catalog, Feature $feature, $id)
+    {
+        $test = $feature->getFeatures($id, $catalog);
+        dd($test);
+
+        $catalog = $catalog->findOrFail($id);
+        $features = $feature->all();
+
+        $catsFeats = Catalog::find(13)->features;
+
+        return view('admin.catalogs.features')
+            ->with('catalog', $catalog)
+            ->with('features', $features)
+            ->with('catsFeats', $catsFeats);
+    }
+
 }

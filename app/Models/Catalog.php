@@ -12,4 +12,9 @@ class Catalog extends Model
     {
         return $this->hasMany('Product');
     }
+
+    public  function features()
+    {
+        return $this->belongsToMany('App\Models\Feature', 'catalogs_features');
+    }
 }

@@ -15,7 +15,7 @@
                 <td>Название</td>
                 <td>Дата публикации</td>
                 <td>Количество наимен. товаров</td>
-                <td colspan="2" id="action">Действия</td>
+                <td colspan="3" id="action">Действия</td>
             </tr>
             @foreach($catalogs as $cat)
                 <tr>
@@ -24,6 +24,7 @@
                     <td>{{ $cat->created_at }}</td>
                     <td>6</td>
                     <td class="action"><a href="{{ route('admin.catalogs.edit', $cat->id) }}" class="icon-pencil"></a></td>
+                    <td class="action"><a href="{{ route('admin.catalogs.features', $cat->id) }}" class="icon-paper-clip"></a></td>
                     <td class="action"><a href="{{ route('admin.catalogs.delete', $cat->id) }}" class="icon-trash"></a></td>
                 </tr>
             @endforeach

@@ -17,7 +17,7 @@
             <tr>
                 <td>
                     <div class="buttons">
-                        <button name="submit" class="btn-add">Изменить</button>
+                        <button name="submit" value="on" class="btn-add">Изменить</button>
                     </div>
                 </td>
             </tr>
