@@ -10,10 +10,10 @@ class Catalog extends Model
 
     public function products()
     {
-        return $this->hasMany('Product');
+        return $this->hasMany('App\Models\Product');
     }
 
-    public  function features()
+    public function features()
     {
         return $this->belongsToMany('App\Models\Feature', 'catalogs_features');
     }

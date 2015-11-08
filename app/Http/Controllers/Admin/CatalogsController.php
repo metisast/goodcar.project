@@ -89,11 +89,10 @@ class CatalogsController extends Controller
      *
      * @param Catalog $catalog
      * @param  Request  $request
-     * @param  CatalogFeature $catalogFeature
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, Catalog $catalog, CatalogFeature $catalogFeature, $id)
+    public function update(Request $request, Catalog $catalog, $id)
     {
         $cat = $catalog->findOrFail($id);
         $btnSubmit = $request->input('submit');
@@ -111,15 +110,10 @@ class CatalogsController extends Controller
         {
             $features = $request->input('features');
 
-            for($i = 0; $i < count($features); $i++)
-            {
-                $catalogFeature->create([
-                    'catalog_id' => $id,
-                    'feature_id' => $features[$i]
-                ]);
-            }
+            //Добавление связи многие ко многим
+            $cat->features()->attach($features);
 
-            return redirect(route('admin.catalogs.index'));
+            return redirect(route('admin.catalogs.features', $id));
         }
 
     }
@@ -128,11 +122,44 @@ class CatalogsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param Request $request
+     * @param Catalog $catalog
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request, Catalog $catalog)
     {
-        //
+        //Удаление привязанных характеристик к каталогу
+        $btnDelFeatures = $request->input('btnFeatures');
+
+        if($btnDelFeatures == 'on')
+        {
+            $cat = $catalog->findOrFail($id);
+            $cat->features()->detach($request->input('features'));
+
+            return redirect(route('admin.catalogs.features', $id));
+        }
+
+        //Удаление каталогов с проверкой привязанных товаров
+        $btnDelCatalogs = $request->input('btnCatalogs');
+
+        if($btnDelCatalogs == 'on')
+        {
+            $products = $catalog->findOrFail(24)->products()->get();
+            //dd($products->count());
+
+            if($products->count() == 0)
+            {
+                return redirect(route('admin.catalogs.index'));
+            }
+
+            foreach($products as $p)
+            {
+                echo $p['title'];
+            }
+            //$catalog->destroy($request->input('catalogs'));
+        }
+
+        //return redirect(route('admin.catalogs.index'));
     }
 
     /**
@@ -161,13 +188,12 @@ class CatalogsController extends Controller
      */
     public function features(Catalog $catalog, Feature $feature, $id)
     {
-        $test = $feature->getFeatures($id, $catalog);
-        dd($test);
+        //Получаем только невыбранные характеристики
+        $features = $feature->getFeatures($id, $catalog);
 
         $catalog = $catalog->findOrFail($id);
-        $features = $feature->all();
 
-        $catsFeats = Catalog::find(13)->features;
+        $catsFeats = Catalog::find($id)->features;
 
         return view('admin.catalogs.features')
             ->with('catalog', $catalog)

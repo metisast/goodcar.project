@@ -31,7 +31,7 @@
             <button name="submit" form="form">Удалить выбранные</button>
         </div>
     </div>
-    <!--  -->
+    <!-- Форма для удаления характеристик -->
     <form action="{{ route('admin.features.destroy', 'del') }}" id="form" enctype="multipart/form-data" method="post">
         <input type="hidden" name="_method" value="DELETE">
         {!! csrf_field() !!}

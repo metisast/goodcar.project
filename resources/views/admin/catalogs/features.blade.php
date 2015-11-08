@@ -17,15 +17,16 @@
         @endforeach
     </table>
     <div class="buttons">
-        <button name="features" value="on" form="form-features">Удалить выбранные</button>
+        <button name="btnFeatures" value="on" form="form-features">Удалить выбранные</button>
     </div>
     {{-- Форма для отправки характеристик на удаление --}}
-    <form action="{{ route('admin.catalogs.destroy') }}" id="form-features">
+    <form action="{{ route('admin.catalogs.destroy', $catalog->id) }}" id="form-features" method="post">
         <input type="hidden" name="_method" value="DELETE">
         {!! csrf_field() !!}
     </form>
 
     {{-- Вывод и добавление характеристик --}}
+    <h3>Доступные характеристики</h3>
     <form action="{{ route('admin.catalogs.update', $catalog->id) }}" method="post">
         <input type="hidden" name="_method" value="PUT">
         {!! csrf_field() !!}
