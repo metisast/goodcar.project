@@ -163,26 +163,10 @@ class CatalogsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param Catalog $catalog
-     * @param  int  $id
-     * @return Response
-     */
-    public function delete(Catalog $catalog, $id)
-    {
-        $cat = $catalog->findOrFail($id);
-        $cat->delete();
-
-        return redirect(route('admin.catalogs.index'));
-    }
-
-    /**
      *  Редактирование характеристик каталогов
      *
      * @param Catalog $catalog
      * @param Feature $feature
-     * @param CatalogFeature $catalogFeature
      * @param  int  $id
      * @return Response
      */

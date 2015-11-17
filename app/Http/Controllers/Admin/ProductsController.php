@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Catalog;
 use App\Models\Product;
+use App\Models\ProductFeatures;
 use App\Models\ProductImages;
 use App\Models\ProductsStatus;
 use Illuminate\Http\Request;
@@ -157,29 +158,21 @@ class ProductsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param Request $request
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $btnProducts = $request->input('btnProducts');
+
+        if($btnProducts == 'on')
+        {
+            $products = $request->input('products');
+            $this->products->destroy($products);
+
+            return redirect(route('admin.products.index'));
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function delete($id, ProductImages $productImages)
-    {
-        $deleteProduct = $this->products->findOrFail($id);
-        $deleteProduct->delete();
-
-        //$this->deleteImages($id, $productImages);
-
-        return redirect(route('admin.products.index'));
-    }
-
 
     /**
      * Методы для работы с изображениями товаров
@@ -302,12 +295,73 @@ class ProductsController extends Controller
             rmdir($path);
         }
 
-        //$product = Product::findOrFail($id);
-
-        /*App::error(function(ModelNotFoundException $e){
-           return Response::make('Not Found', 404);
-        });*/
-
         return redirect(route('admin.products.edit', $id));
     }
+
+    /**
+     * Отображение характеристик к товару
+     *
+     * @param $id
+     * @return Response
+     */
+    public function createFeatures($id)
+    {
+        //Получаем текущий продукт
+        $product = $this->products->findOrFail($id);
+        //Получаем каталог к которому относится продукт
+        $catalog = $product->catalog;
+        //Получаем все характеристики по каталогу
+        $features = $this->catalogs->findOrFail($catalog->id)->features;
+
+        return view('admin.products.features')
+            ->with('product', $product)
+            ->with('features', $features);
+
+    }
+
+    /**
+     * Массовое добавление характеристик к товару
+     *
+     * @param $id
+     * @param Request $request
+     * @param ProductFeatures $pFeatures
+     * @return Response
+     */
+    public function storeFeatures($id, Request $request, ProductFeatures $pFeatures)
+    {
+        //Получаем все характеристики из полей, кроме кнопки и токена
+        $input = $request->except('btnAddFeatures', '_token');
+        //Получаем текущий продукт
+        $product = $this->products->findOrFail($id);
+        //Получаем все характеристики, которые относятся к привязанному каталогу товара
+        $features = $this->catalogs->findOrFail($product->catalog_id)->features;
+        //Возвращает все или некоторое подмножество ключей массива
+        $keysFeature = array_keys($input);
+
+        //Перебераем все характеристики каталога
+        foreach($features as $f)
+        {
+            //Перебираем все подмножество ключей
+            for($i = 0; $i < count($keysFeature); $i++)
+            {
+                //Если ключ соотвествует ключу из массива характеристик каталога записываем его в базу
+                if($keysFeature[$i] == $f->id)
+                {
+                    $pFeatures
+                        ->where('feature_id','=',$keysFeature[$i])
+                        ->where('product_id','=', $product->id)
+                        ->delete();
+                    $pFeatures->create([
+                        'product_id' => $product->id,
+                        'feature_id' => $f->id,
+                        'title' => $input[$keysFeature[$i]]
+                    ]);
+                    //Если нашли ключ, то выходим из цикла for
+                    break;
+                }
+            }
+
+        }
+    }
+
 }

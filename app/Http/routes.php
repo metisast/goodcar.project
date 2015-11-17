@@ -86,11 +86,6 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
     ]);
 
     /*-- Роуты продуктов --*/
-    Route::get('admin/products/delete/{id}',[
-        'as' => 'admin.products.delete',
-        'uses' => 'ProductsController@delete'
-    ]);
-
     Route::post('admin/products/images/{id}',[
         'as' => 'admin.products.createImages',
         'uses' => 'ProductsController@createImages'
@@ -102,6 +97,14 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
     Route::post('admin/products/deleteImages/{id}',[
         'as' => 'admin.products.deleteImages',
         'uses' => 'ProductsController@deleteImages'
+    ]);
+    Route::get('admin/products/features/{id}', [
+        'as' => 'admin.products.createFeatures',
+        'uses' => 'ProductsController@createFeatures'
+    ]);
+    Route::post('admin/products/storeFeatures/{id}', [
+        'as' => 'admin.products.storeFeatures',
+        'uses' => 'ProductsController@storeFeatures'
     ]);
 
     Route::resource('admin/products', 'ProductsController');
@@ -115,10 +118,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function()
         'as' => 'admin.catalogs.features',
         'uses' => 'CatalogsController@features'
     ]);
-    Route::get('admin/catalogs/delete/{id}',[
-        'as' => 'admin.catalogs.delete',
-        'uses' => 'CatalogsController@delete'
-    ]);
+
     Route::resource('admin/catalogs', 'CatalogsController');
 });
 
